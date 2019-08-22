@@ -9,30 +9,32 @@ import requests
 from splinter import Browser
 import time
 import pandas as pd
+from IPython import get_ipython
 
 
 
 # In[2]:
 
 
-get_ipython().system('which chromedriver')
+#get_ipython().system('which chromedriver')
 
 
 # In[3]:
 
 
-# Choose the executable path to driver 
+# Choose the executable path to driver
 def init_browser():
     executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
     browser = Browser('chrome', **executable_path, headless=False)
-
+    return browser
 
 # In[4]:
 
 def scrape():
     browser = init_browser()
     # create mars dict that we can insert into mongo
-    mars_data = {}
+    mars= {}
+
 
 #get url
     news_url = 'https://mars.nasa.gov/news/'
@@ -62,8 +64,8 @@ def scrape():
     news_title = soup.find('div', class_='content_title').find('a').text
     news_p = soup.find('div',class_='rollover_description').text
 
-    mars_data['news_title'] = news_title
-    mars_data['news_p'] = news_p
+    mars['news_title'] = news_title
+    mars['news_p'] = news_p
 
     print(news_title)
     print(news_p)
@@ -123,7 +125,7 @@ def scrape():
     main_url = 'https://www.jpl.nasa.gov'
     featured_image_url = main_url + image
 
-    mars_data['featured_image_url'] = featured_image_url
+    mars['featured_image_url'] = featured_image_url
 
     print(featured_image_url)
 
@@ -148,9 +150,9 @@ def scrape():
 #get the latest tweet
     weather_tweet = soup.find('div', attrs = {"class":"tweet","data-name":"Mars Weather"})
     mars_weather = weather_tweet.find('p', 'tweet-text').get_text()
-    
-    mars_data['mars_weather'] = mars_weather
-    
+
+    mars['mars_weather'] = mars_weather
+
     print(mars_weather)
 
 
@@ -186,8 +188,9 @@ def scrape():
 
 
 # pretty the table
-    df = tables[0]
-    df.head()
+    df = tables[1]
+    df.columns=['Facts', 'Values']
+    df.set_index(['Facts'])
 
 
 # In[19]:
@@ -215,10 +218,10 @@ def scrape():
 # In[22]:
 
 
-    get_ipython().system('open table.html')
+    #get_ipython().system('open table.html')
 
-    mars_data['mars_facts_table']= html_table
+    mars['mars_facts_table']= html_table
 
     browser.quit()
-    return mars_data
 
+    return mars
