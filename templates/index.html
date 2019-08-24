@@ -16,11 +16,29 @@
       <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
     </div>
 
-    <h3>news title: {{ mars.news_title }}</h3>
-    <h3>news title: {{ mars.news_p }}</h3>
-    <h3>featured image: {{ mars.featured_image_url}}</h3>
-    <h3>weather: {{ mars.mars_weather }}</h3>
-    <h3>table {{ mars.mars_facts_table }}</h3>
+    <h3>Latest Mars News:</h3>
+    <h4>{{ mars.news_title }}</h4>
+    <p>{{ mars.news_p }}</p>
+
+    <div class = 'row'>
+      <div class="col-lg-8 col-md-12" >
+        <h3>Featured Mars Image: </h3>
+        <img src= "{{mars.featured_image_url}}" class="vizualization rounded float-left" alt="Mars featured Graph" width="100%">
+      </div>
+
+      <div class="col-lg-4 col-md-12">
+    <h3>Current weather on Mars:</h3>
+    <p>{{ mars.mars_weather }}</p>
+    <h3>Mars Facts </h3>
+    <p>{{ mars.mars_facts_table | safe}}</p>
+      </div>
+    </div>
+    <div>
+      {{ mars.hemisphere_image_urls }}
+    </div>
+
+
+
 
   </div>
   </div>

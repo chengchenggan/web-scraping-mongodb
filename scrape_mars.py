@@ -222,6 +222,52 @@ def scrape():
 
     mars['mars_facts_table']= html_table
 
+
+#Mars Hemispheres
+#Visit the USGS Astrogeology site to obtain high resolution images for each of Mar's hemispheres¶
+    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(url)
+    #get hemisphere title
+    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(url)
+
+    html = browser.html
+    soup = BeautifulSoup(html,'html.parser')
+    hemisphere_title_links = soup.find_all('h3')
+
+    titles = []
+    for hemisphere_title_link in hemisphere_title_links:
+        titles.append(hemisphere_title_link.text)
+    for title in titles:
+        print(title)
+    #get image url
+    hemisphere_images=[]
+#more_info_elm = browser.find_link_by_partial_text('more info')
+
+    for title in titles:
+        hemisphere_link = browser.find_link_by_partial_text(title)
+        hemisphere_link.click()
+
+        html = browser.html
+        soup = BeautifulSoup(html,'html.parser')
+
+        hemisphere_images.append(soup.find('div','downloads').select_one('a').get('href'))
+        url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+        browser.visit(url)
+
+    for hemisphere_image in hemisphere_images:
+        print(hemisphere_image)
+
+    #combine title and url in a list
+
+    hemisphere_image_collection = list(zip(titles, hemisphere_images))
+    hemisphere_image_urls = []
+    for title,hemisphere_image in hemisphere_image_collection:
+        hemisphere_image_urls.append({'title': title, 'img_url':hemisphere_image})
+        print(hemisphere_image_urls)
+    mars['hemisphere_image_urls']= hemisphere_image_urls
+
+
     browser.quit()
 
     return mars
