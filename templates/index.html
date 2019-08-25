@@ -20,6 +20,18 @@
   margin-right: auto;
   width: 70%;
 }
+table th:first-child {
+  display:none !important;
+}
+table td:first-child {
+  display:none !important;
+}
+table th{
+  padding:5px !important;
+}
+table td{
+  padding:5px !important;
+}
 </style>
 
 </head>
@@ -52,12 +64,17 @@
       <h3>{{ mars.hemisphere_image_urls[0]['title'] }}</h3>
     </div>
     <div class = "row description-content" >
+      {% for x in mars.hemisphere_image_urls %}
+
       <div class="col-md-6" >
-        <h5 align = 'center'>{{ mars.hemisphere_image_urls[0]['title'] }}</h5>
-        <img src={{ mars.hemisphere_image_urls[0]['img_url']}}  alt="hemisphere_image"  class = 'center'>
+        <h5 align = 'center'>{{ x.title }}</h5>
+        <img src={{x.img_url}}  alt="hemisphere_image"  class = 'center'>
       </div>
 
+      {% endfor %}
 
+
+<!---
       <div class="col-md-6" >
         <h5 align = 'center'>{{ mars.hemisphere_image_urls[1]['title'] }}</h5>
         <img src={{ mars.hemisphere_image_urls[1]['img_url']}} alt="hemisphere_image"  class = 'center'>
@@ -72,6 +89,7 @@
         <h5 align = 'center'>{{ mars.hemisphere_image_urls[3]['title'] }}</h5>
         <img src={{ mars.hemisphere_image_urls[3]['img_url']}}  alt="hemisphere_image" class = 'center'>
       </div>
+    -->
     </div>
 
 
